@@ -10,9 +10,13 @@ const moment = require('moment');
   FAZER NA #01
 */
 router.post('/', async (req, res) => {
-  var busboy = new Busboy({ headers: req.headers });
-  busboy.on('finish', async () => {
-    try {
+  const isMultipart =
+    req.headers['content-type'] &&
+    req.headers['content-type'].includes('multipart/form-data');
+  if (isMultipart) {
+    var busboy = new Busboy({ headers: req.headers });
+    busboy.on('finish', async () => {
+      try {
       let errors = [];
       let arquivos = [];
       const hasAws = aws.IAM_USER_KEY && aws.IAM_USER_SECRET && aws.BUCKET_NAME;
@@ -43,7 +47,21 @@ router.post('/', async (req, res) => {
       }
 
       // CRIAR SERVIÇO
-      let jsonServico = JSON.parse(req.body.servico);
+      let jsonServico;
+      if (req.body.servico) {
+        const raw =
+          typeof req.body.servico === 'string'
+            ? req.body.servico
+                .trim()
+                .replace(/^'+|'+$/g, '')
+                .replace(/^"+|"+$/g, '')
+            : req.body.servico;
+        jsonServico = typeof raw === 'string' ? JSON.parse(raw) : raw;
+      } else if (req.body && req.body.titulo) {
+        jsonServico = req.body;
+      } else {
+        throw new Error('Dados de serviço inválidos');
+      }
       jsonServico.salaoId = req.body.salaoId;
       const servico = await new Servico(jsonServico).save();
 
@@ -58,20 +76,46 @@ router.post('/', async (req, res) => {
       }
 
       res.json({ error: false, arquivos });
-    } catch (err) {
-      res.json({ error: true, message: err.message });
+      } catch (err) {
+        res.json({ error: true, message: err.message });
+      }
+    });
+    req.pipe(busboy);
+    return;
+  }
+
+  try {
+    let jsonServico;
+    if (req.body.servico) {
+      const raw =
+        typeof req.body.servico === 'string'
+          ? req.body.servico.trim().replace(/^'+|'+$/g, '').replace(/^"+|"+$/g, '')
+          : req.body.servico;
+      jsonServico = typeof raw === 'string' ? JSON.parse(raw) : raw;
+    } else if (req.body && req.body.titulo) {
+      jsonServico = req.body;
+    } else {
+      throw new Error('Dados de serviço inválidos');
     }
-  });
-  req.pipe(busboy);
+    jsonServico.salaoId = req.body.salaoId;
+    await new Servico(jsonServico).save();
+    res.json({ error: false, arquivos: [] });
+  } catch (err) {
+    res.json({ error: true, message: err.message });
+  }
 });
 
 /*
   FAZER NA #01
 */
 router.put('/:id', async (req, res) => {
-  var busboy = new Busboy({ headers: req.headers });
-  busboy.on('finish', async () => {
-    try {
+  const isMultipart =
+    req.headers['content-type'] &&
+    req.headers['content-type'].includes('multipart/form-data');
+  if (isMultipart) {
+    var busboy = new Busboy({ headers: req.headers });
+    busboy.on('finish', async () => {
+      try {
       let errors = [];
       let arquivos = [];
       const hasAws = aws.IAM_USER_KEY && aws.IAM_USER_SECRET && aws.BUCKET_NAME;
@@ -102,7 +146,21 @@ router.put('/:id', async (req, res) => {
       }
 
       //  ATUALIZAR SERVIÇO
-      let jsonServico = JSON.parse(req.body.servico);
+      let jsonServico;
+      if (req.body.servico) {
+        const raw =
+          typeof req.body.servico === 'string'
+            ? req.body.servico
+                .trim()
+                .replace(/^'+|'+$/g, '')
+                .replace(/^"+|"+$/g, '')
+            : req.body.servico;
+        jsonServico = typeof raw === 'string' ? JSON.parse(raw) : raw;
+      } else if (req.body && req.body.titulo) {
+        jsonServico = req.body;
+      } else {
+        throw new Error('Dados de serviço inválidos');
+      }
       await Servico.findByIdAndUpdate(req.params.id, jsonServico);
 
       // CRIAR ARQUIVO
@@ -116,11 +174,32 @@ router.put('/:id', async (req, res) => {
       }
 
       res.json({ error: false });
-    } catch (err) {
-      res.json({ error: true, message: err.message });
+      } catch (err) {
+        res.json({ error: true, message: err.message });
+      }
+    });
+    req.pipe(busboy);
+    return;
+  }
+
+  try {
+    let jsonServico;
+    if (req.body.servico) {
+      const raw =
+        typeof req.body.servico === 'string'
+          ? req.body.servico.trim().replace(/^'+|'+$/g, '').replace(/^"+|"+$/g, '')
+          : req.body.servico;
+      jsonServico = typeof raw === 'string' ? JSON.parse(raw) : raw;
+    } else if (req.body && req.body.titulo) {
+      jsonServico = req.body;
+    } else {
+      throw new Error('Dados de serviço inválidos');
     }
-  });
-  req.pipe(busboy);
+    await Servico.findByIdAndUpdate(req.params.id, jsonServico);
+    res.json({ error: false });
+  } catch (err) {
+    res.json({ error: true, message: err.message });
+  }
 });
 
 /*
