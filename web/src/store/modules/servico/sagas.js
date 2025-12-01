@@ -61,10 +61,7 @@ export function* allServicos() {
   try {
     yield put(updateServico({ form: { ...form, filtering: true } }));
 
-    const { data: res } = yield call(
-      api.get,
-      `/servico/salao/609310a1002ab333d1ae1716`
-    );
+    const { data: res } = yield call(api.get, `/servico/salao/${consts.salaoId}`);
     yield put(updateServico({ form: { ...form, filtering: false } }));
 
     if (res.error) {

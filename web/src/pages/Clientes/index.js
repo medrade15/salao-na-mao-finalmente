@@ -111,10 +111,10 @@ const Clientes = () => {
             )}
             <div className="form-group col-12">
               <b className="">E-mail</b>
-              <div class="input-group mb-3">
+              <div className="input-group mb-3">
                 <input
                   type="email"
-                  class="form-control"
+                  className="form-control"
                   placeholder="E-mail do cliente"
                   disabled={behavior !== 'create'}
                   onChange={(e) => {
@@ -124,7 +124,7 @@ const Clientes = () => {
                   value={cliente.email}
                 />
                 {behavior === 'create' && (
-                  <div class="input-group-append">
+                  <div className="input-group-append">
                     <Button
                       appearance="primary"
                       loading={form.filtering}

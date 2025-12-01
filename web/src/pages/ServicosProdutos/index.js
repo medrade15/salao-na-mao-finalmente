@@ -60,7 +60,6 @@ const ServicosProdutos = () => {
         'duracao',
         'descricao',
         'status',
-        'arquivos',
       ])
     ) {
       // DISPARAR O ALERTA
@@ -357,7 +356,7 @@ const ServicosProdutos = () => {
                     edit(item);
                   }}
                 >
-                  <span class="mdi mdi-pencil"></span>
+                  <span className="mdi mdi-pencil"></span>
                 </Button>
                 <Button
                   color="red"
@@ -372,7 +371,7 @@ const ServicosProdutos = () => {
                     setComponents('confirmDelete', true);
                   }}
                 >
-                  <span class="mdi mdi-trash-can"></span>
+                  <span className="mdi mdi-trash-can"></span>
                 </Button>
               </>
             )}

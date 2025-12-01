@@ -15,8 +15,9 @@ router.post('/', async (req, res) => {
     try {
       let errors = [];
       let arquivos = [];
+      const hasAws = aws.IAM_USER_KEY && aws.IAM_USER_SECRET && aws.BUCKET_NAME;
 
-      if (req.files && Object.keys(req.files).length > 0) {
+      if (hasAws && req.files && Object.keys(req.files).length > 0) {
         for (let key of Object.keys(req.files)) {
           const file = req.files[key];
 
@@ -33,16 +34,12 @@ router.post('/', async (req, res) => {
           );
 
           if (response.error) {
-            errors.push({ error: true, message: response.message.message });
+            // Ignora erro de upload para permitir criação do serviço
+            console.log('Upload falhou, prosseguindo sem arquivo:', response.message);
           } else {
             arquivos.push(path);
           }
         }
-      }
-
-      if (errors.length > 0) {
-        res.json(errors[0]);
-        return false;
       }
 
       // CRIAR SERVIÇO
@@ -51,12 +48,14 @@ router.post('/', async (req, res) => {
       const servico = await new Servico(jsonServico).save();
 
       // CRIAR ARQUIVO
-      arquivos = arquivos.map((arquivo) => ({
-        referenciaId: servico._id,
-        model: 'Servico',
-        arquivo,
-      }));
-      await Arquivos.insertMany(arquivos);
+      if (arquivos.length > 0) {
+        arquivos = arquivos.map((arquivo) => ({
+          referenciaId: servico._id,
+          model: 'Servico',
+          arquivo,
+        }));
+        await Arquivos.insertMany(arquivos);
+      }
 
       res.json({ error: false, arquivos });
     } catch (err) {
@@ -75,8 +74,9 @@ router.put('/:id', async (req, res) => {
     try {
       let errors = [];
       let arquivos = [];
+      const hasAws = aws.IAM_USER_KEY && aws.IAM_USER_SECRET && aws.BUCKET_NAME;
 
-      if (req.files && Object.keys(req.files).length > 0) {
+      if (hasAws && req.files && Object.keys(req.files).length > 0) {
         for (let key of Object.keys(req.files)) {
           const file = req.files[key];
 
@@ -93,16 +93,12 @@ router.put('/:id', async (req, res) => {
           );
 
           if (response.error) {
-            errors.push({ error: true, message: response.message.message });
+            // Ignora erro de upload para permitir atualização do serviço
+            console.log('Upload falhou, prosseguindo sem arquivo:', response.message);
           } else {
             arquivos.push(path);
           }
         }
-      }
-
-      if (errors.length > 0) {
-        res.json(errors[0]);
-        return false;
       }
 
       //  ATUALIZAR SERVIÇO
@@ -110,12 +106,14 @@ router.put('/:id', async (req, res) => {
       await Servico.findByIdAndUpdate(req.params.id, jsonServico);
 
       // CRIAR ARQUIVO
-      arquivos = arquivos.map((arquivo) => ({
-        referenciaId: req.params.id,
-        model: 'Servico',
-        arquivo,
-      }));
-      await Arquivos.insertMany(arquivos);
+      if (arquivos.length > 0) {
+        arquivos = arquivos.map((arquivo) => ({
+          referenciaId: req.params.id,
+          model: 'Servico',
+          arquivo,
+        }));
+        await Arquivos.insertMany(arquivos);
+      }
 
       res.json({ error: false });
     } catch (err) {
@@ -159,16 +157,19 @@ router.get('/salao/:salaoId', async (req, res) => {
 router.post('/remove-arquivo', async (req, res) => {
   try {
     const { arquivo } = req.body;
+    const hasAws = aws.IAM_USER_KEY && aws.IAM_USER_SECRET && aws.BUCKET_NAME;
 
     // EXCLUIR DA AWS
-    await aws.deleteFileS3(arquivo);
+    if (hasAws) {
+      await aws.deleteFileS3(arquivo);
+    }
 
     // EXCLUIR DO BANCO DE DADOS
     await Arquivos.findOneAndDelete({
       arquivo,
     });
 
-    res.json({ error: false, message: 'Erro ao excluir o arquivo!' });
+    res.json({ error: false, message: 'Arquivo excluído com sucesso!' });
   } catch (err) {
     res.json({ error: true, message: err.message });
   }

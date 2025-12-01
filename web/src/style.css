@@ -68,21 +68,21 @@ header small {
   margin-top: -20px;
 }
 
-sidebar {
+.sidebar {
   background-color: var(--dark);
 }
 
-sidebar ul {
+.sidebar ul {
   margin: 0;
   padding: 0;
 }
 
-sidebar ul li {
+.sidebar ul li {
   list-style: none;
   width: 100%;
 }
 
-sidebar ul li a {
+.sidebar ul li a {
   width: 100%;
   list-style: none;
   color: #fff;
@@ -95,22 +95,22 @@ sidebar ul li a {
   border-radius: 5px;
 }
 
-sidebar ul li a.active {
+.sidebar ul li a.active {
   opacity: 1;
   background-color: rgba(0, 0, 0, 0.6);
 }
 
-sidebar ul li a.active .mdi {
+.sidebar ul li a.active .mdi {
   color: var(--primary);
 }
 
-sidebar ul li a:visited,
-sidebar ul li a:focus {
+.sidebar ul li a:visited,
+.sidebar ul li a:focus {
   color: #fff;
   text-decoration: none !important;
 }
 
-sidebar ul li a:hover {
+.sidebar ul li a:hover {
   background-color: rgba(0, 0, 0, 0.6);
   cursor: pointer;
   transition: 0.5s;

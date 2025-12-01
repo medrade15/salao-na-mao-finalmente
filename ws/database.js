@@ -1,16 +1,13 @@
 const mongoose = require('mongoose');
 
-const URI = '';
+const URI = process.env.MONGO_URI || 'mongodb+srv://medrade15:HRCiPSeS32GwDszV@salao-na-mao.gszvze8.mongodb.net/salao?retryWrites=true&w=majority';
 
-const env = process.env.NODE_ENV || 'dev';
-let options = {};
 
-mongoose.set('useNewUrlParser', true);
-mongoose.set('useFindAndModify', false);
-mongoose.set('useCreateIndex', true);
-mongoose.set('useUnifiedTopology', true);
 
 mongoose
-  .connect(URI, options)
+  .connect(URI)
   .then(() => console.log('DB is Up!'))
   .catch((err) => console.log(err));
+
+  //HRCiPSeS32GwDszV//
+  //c2OrbgFFFRhOmQy9//

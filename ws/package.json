@@ -7,7 +7,8 @@
     "test": "export NODE_ENV=prod && nodemon index.js",
     "dev": "export NODE_ENV=dev && nodemon index.js",
     "prod": "export NODE_ENV=prod && pm2 start index.js && pm2 start mail.js",
-    "mail": "export NODE_ENV=prod && node ./src/scripts/bulkMails.js"
+    "mail": "export NODE_ENV=prod && node ./src/scripts/bulkMails.js",
+    "start": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",
@@ -31,7 +32,7 @@
     "helmet": "^3.22.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
-    "mongoose": "^5.9.7",
+    "mongoose": "^9.0.0",
     "morgan": "^1.10.1",
     "node-filter-async": "^2.0.0",
     "rate-limit-redis": "^2.0.0",

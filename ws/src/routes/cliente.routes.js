@@ -24,7 +24,7 @@ router.post('/', async (req, res) => {
     });
 
     if (!existentClient) {
-      const _id = mongoose.Types.ObjectId();
+      const _id = new mongoose.Types.ObjectId();
       const cliente = req.body.cliente;
       console.log(cliente);
       const pagarmeCliente = await pagarme('/customers', {

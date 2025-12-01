@@ -104,10 +104,7 @@ export function* allColaboradores() {
   try {
     yield put(updateColaborador({ form: { ...form, filtering: true } }));
 
-    const { data: res } = yield call(
-      api.get,
-      `/colaborador/salao/609310a1002ab333d1ae1716`
-    );
+    const { data: res } = yield call(api.get, `/colaborador/salao/${consts.salaoId}`);
     yield put(updateColaborador({ form: { ...form, filtering: false } }));
 
     if (res.error) {
@@ -185,10 +182,7 @@ export function* allServicos() {
   try {
     yield put(updateColaborador({ form: { ...form, filtering: true } }));
 
-    const { data: res } = yield call(
-      api.get,
-      `/salao/servicos/609310a1002ab333d1ae1716`
-    );
+    const { data: res } = yield call(api.get, `/salao/servicos/${consts.salaoId}`);
     yield put(updateColaborador({ form: { ...form, filtering: false } }));
 
     console.log(res);

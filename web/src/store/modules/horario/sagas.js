@@ -7,6 +7,7 @@ import {
 import types from './types';
 import api from '../../../services/api';
 import { notification } from '../../../services/rsuite';
+import consts from '../../../consts';
 
 export function* addHorario() {
   try {
@@ -17,7 +18,7 @@ export function* addHorario() {
 
     const { data: res } = yield call(api.post, '/horario', {
       ...horario,
-      salaoId: '609310a1002ab333d1ae1716',
+      salaoId: consts.salaoId,
     });
     yield put(updateHorario({ form: { ...form, saving: false } }));
 
@@ -55,10 +56,7 @@ export function* allHorarios() {
   try {
     yield put(updateHorario({ form: { ...form, filtering: true } }));
 
-    const { data: res } = yield call(
-      api.get,
-      `/horario/salao/609310a1002ab333d1ae1716`
-    );
+    const { data: res } = yield call(api.get, `/horario/salao/${consts.salaoId}`);
     yield put(updateHorario({ form: { ...form, filtering: false } }));
 
     if (res.error) {
@@ -167,10 +165,7 @@ export function* allServicos() {
   try {
     yield put(updateHorario({ form: { ...form, filtering: true } }));
 
-    const { data: res } = yield call(
-      api.get,
-      `/salao/servicos/609310a1002ab333d1ae1716`
-    );
+    const { data: res } = yield call(api.get, `/salao/servicos/${consts.salaoId}`);
     yield put(updateHorario({ form: { ...form, filtering: false } }));
 
     if (res.error) {

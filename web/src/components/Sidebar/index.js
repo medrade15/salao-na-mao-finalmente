@@ -3,16 +3,16 @@ import logo from '../../assets/logo.png';
 
 const Sidebar = (props) => {
   return (
-    <sidebar class="col-2 h-100">
-      <img src={logo} class="img-fluid px-3 py-4" />
+    <div className="sidebar col-2 h-100">
+      <img alt="logo" src={logo} className="img-fluid px-3 py-4" />
       <ul>
         <li>
           <Link
             to="/"
             className={props.location.pathname === '/' ? 'active' : ''}
           >
-            <span class="mdi mdi-calendar-check"></span>
-            <text>Agendamentos</text>
+            <span className="mdi mdi-calendar-check"></span>
+            <span>Agendamentos</span>
           </Link>
         </li>
         <li>
@@ -20,8 +20,8 @@ const Sidebar = (props) => {
             to="/clientes"
             className={props.location.pathname === '/clientes' ? 'active' : ''}
           >
-            <span class="mdi mdi-account-multiple"></span>
-            <text>Clientes</text>
+            <span className="mdi mdi-account-multiple"></span>
+            <span>Clientes</span>
           </Link>
         </li>
         <li>
@@ -31,8 +31,8 @@ const Sidebar = (props) => {
               props.location.pathname === '/colaboradores' ? 'active' : ''
             }
           >
-            <span class="mdi mdi-card-account-details-outline"></span>
-            <text>Colaboradores</text>
+            <span className="mdi mdi-card-account-details-outline"></span>
+            <span>Colaboradores</span>
           </Link>
         </li>
         <li>
@@ -42,8 +42,8 @@ const Sidebar = (props) => {
               props.location.pathname === '/servicos-produtos' ? 'active' : ''
             }
           >
-            <span class="mdi mdi-auto-fix"></span>
-            <text>Serviços</text>
+            <span className="mdi mdi-auto-fix"></span>
+            <span>Serviços</span>
           </Link>
         </li>
         <li>
@@ -55,12 +55,12 @@ const Sidebar = (props) => {
                 : ''
             }
           >
-            <span class="mdi mdi-clock-check-outline"></span>
-            <text>Horarios</text>
+            <span className="mdi mdi-clock-check-outline"></span>
+            <span>Horarios</span>
           </Link>
         </li>
       </ul>
-    </sidebar>
+    </div>
   );
 };
 

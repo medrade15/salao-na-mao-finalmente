@@ -4,7 +4,7 @@ export default {
       ? 'https://ws.salaonamao.com.br:8000'
       : 'http://localhost:8000',
   AWS: {
-    bucketURL: 'https://salao-na-mao.s3.amazonaws.com',
+    bucketURL: process.env.REACT_APP_S3_BUCKET_URL || 'https://salao-na-mao.s3.amazonaws.com',
   },
   validateEmail: (email) => {
     const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

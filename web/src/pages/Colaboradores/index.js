@@ -133,7 +133,7 @@ const Colaboradores = () => {
           <div className="row mt-3">
             <div className="form-group col-12">
               <b className="">E-mail</b>
-              <div class="input-group mb-3">
+              <div className="input-group mb-3">
                 <input
                   disabled={behavior == 'update'}
                   type="email"
@@ -143,7 +143,7 @@ const Colaboradores = () => {
                   onChange={(e) => setColaborador('email', e.target.value)}
                 />
                 {behavior === 'create' && (
-                  <div class="input-group-append">
+                  <div className="input-group-append">
                     <Button
                       appearance="primary"
                       loading={form.filtering}

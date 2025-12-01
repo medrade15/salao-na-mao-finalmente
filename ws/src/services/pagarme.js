@@ -7,17 +7,20 @@ const api = axios.create({
 const api_key = require('../data/keys.json').api_key;
 
 module.exports = async (endpoint, data) => {
+  if (!api_key || process.env.DISABLE_PAGARME === 'true') {
+    const id = `DEV${endpoint.replace(/\//g, '-')}-${Date.now()}`;
+    return { error: false, data: { id } };
+  }
   try {
     const response = await api.post(endpoint, {
       api_key,
       ...data,
     });
-
     return { error: false, data: response.data };
   } catch (err) {
     return {
       error: true,
-      message: JSON.stringify(err.response.data.errors[0]),
+      message: JSON.stringify(err.response?.data?.errors?.[0] || err.message),
     };
   }
 };

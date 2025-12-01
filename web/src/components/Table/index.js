@@ -49,7 +49,7 @@ const TableComponent = ({ rows, onRowClick, config, actions, loading }) => {
         onRowClick={(c) => onRowClick(c)}
       >
         {config.map((c) => (
-          <Column flexGrow={1} fixed={c.fixed} width={c.width}>
+          <Column key={c.key || c.label} flexGrow={1} fixed={c.fixed} width={c.width}>
             <HeaderCell>{c.label}</HeaderCell>
             {!c.content ? (
               <Cell dataKey={c.key} />
@@ -59,7 +59,7 @@ const TableComponent = ({ rows, onRowClick, config, actions, loading }) => {
           </Column>
         ))}
 
-        <Column width={150} fixed="right">
+        <Column key="actions" width={150} fixed="right">
           <HeaderCell>Ações</HeaderCell>
 
           <Cell>{(item) => actions(item)}</Cell>

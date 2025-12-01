@@ -2,11 +2,20 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const salao = new Schema({
-  nome: String,
+  nome:{
+   type: String,
+   required:[true, 'Nome e obrigatório'],
+  },
   foto: String,
   capa: String,
-  email: String,
-  senha: String,
+  email: {
+ type: String,
+   required:[true, 'Email e obrigatório'],
+  },
+  senha:{
+    type: String,
+    default: null,
+  },
   telefone: String,
   recipientId: String,
   endereco: {
@@ -18,8 +27,8 @@ const salao = new Schema({
     pais: String,
   },
   geo: {
-    type: String,
-    coordinates: [],
+    type: { type: String, enum: ['Point'], default: 'Point' },
+    coordinates: { type: [Number] },
   },
   dataCadastro: {
     type: Date,
@@ -27,6 +36,6 @@ const salao = new Schema({
   },
 });
 
-salao.index({ coordenadas: '2dsphere' });
+salao.index({ geo: '2dsphere' });
 
 module.exports = mongoose.model('Salao', salao);

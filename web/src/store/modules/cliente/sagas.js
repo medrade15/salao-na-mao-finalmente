@@ -102,10 +102,7 @@ export function* allClientes() {
   try {
     yield put(updateCliente({ form: { ...form, filtering: true } }));
 
-    const { data: res } = yield call(
-      api.get,
-      `/cliente/salao/608c4b1d73830f4abcb4d904`
-    );
+    const { data: res } = yield call(api.get, `/cliente/salao/${consts.salaoId}`);
     yield put(updateCliente({ form: { ...form, filtering: false } }));
 
     if (res.error) {
